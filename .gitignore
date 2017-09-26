@@ -23,6 +23,7 @@ hs_err_pid*
 
 
 #for maven and idea
-.idea/*
-src/target
-*.iml
+.DS_Store
+.gitignore
+gs-spring-boot-docker.iml
+.idea
