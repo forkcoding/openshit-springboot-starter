@@ -83,6 +83,7 @@ public class Application {
 		WebRequest webRequest=new WebRequest(new URL("http://api.baiyug.cn/vip_vip/index.php?url="+url));
 		webRequest.setAdditionalHeader("Referer","http://api.baiyug.cn/vip/index.php?url="+url);
 		HtmlPage p=webClient.getPage(webRequest);
+		webClient.waitForBackgroundJavaScript(10000);
 		ScriptResult result=p.executeJavaScript("basea17kdv(ykyun)");
 		String text=(String)result.getJavaScriptResult();
 		return text;

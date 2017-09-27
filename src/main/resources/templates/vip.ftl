@@ -9,7 +9,7 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="//jackzhang1204.github.io/sewise/sewise_player/player/sewise.player.min.js"></script>
 
-    <title>Document</title>
+    <title>网页播放器</title>
 </head>
 <body>
     <#--<video src="${url}" id="example-video" width="600" height="300" class="video-js vjs-default-skin" controls>-->
