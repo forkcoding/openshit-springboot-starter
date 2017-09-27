@@ -5,6 +5,7 @@ import com.gargoylesoftware.htmlunit.ScriptResult;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.ByteArrayOutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,25 +44,27 @@ public class Application {
 		String parseURL=parseVideo(url);
 		model.addAttribute("url",parseURL);
 
-//		URL Url=new URL(parseURL);
-//		HttpURLConnection connection=(HttpURLConnection) Url.openConnection();
-//		connection.setDoInput(true);
-//		connection.setDoOutput(true);
-//		connection.setInstanceFollowRedirects(true);
-//		connection.connect();
-//		String contentType=connection.getContentType();
-//
-//		if(contentType.toLowerCase().contains("application/x-mpegurl")){
-//			ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
-//			IOUtils.copy(connection.getInputStream(),outputStream);
-//			String base64=Base64.getEncoder().encodeToString(outputStream.toByteArray());
-//			model.addAttribute("url",String.format("data:%s;base64,%s", contentType,base64));
-//			model.addAttribute("type","application/x-mpegurl");
-//
-//		}
-//		model.addAttribute("type",contentType);
+		URL Url=new URL(parseURL);
+		HttpURLConnection connection=(HttpURLConnection) Url.openConnection();
+		connection.setDoInput(true);
+		connection.setDoOutput(true);
+		connection.setInstanceFollowRedirects(true);
+		connection.connect();
+		String contentType=connection.getContentType();
 
-//		connection.disconnect();
+		if(contentType.toLowerCase().contains("application/x-mpegurl")){
+			ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
+			IOUtils.copy(connection.getInputStream(),outputStream);
+			String base64= Base64.getEncoder().encodeToString(outputStream.toByteArray());
+//			model.addAttribute("url",String.format("data:%s;base64,%s", contentType,base64));
+			model.addAttribute("type","m3u8");
+
+		}else{
+			model.addAttribute("type","mp4");
+
+		}
+
+		connection.disconnect();
 
 		return "vip";
 
