@@ -30,9 +30,18 @@
     <img src="${video['horizontal_pic_url']}" width="100%" height="100%">
 </div>
 <#list videos as p>
-    <a href="http://api.baiyug.cn/vip/index.php?url=${baseUrl}/${p['V']}.html" target="_blank" class="link">
-    ${p['E']}<#if p['F']==0><sup>预</sup></#if><#if p['F']==7><sup>V</sup></#if>
-    </a>
+    <#if p['F']!=7>
+        <a href="${baseUrl}/${p['V']}.html" target="_blank" class="link">
+        ${p['E']}<#if p['F']==0><sup>预</sup></#if><#if p['F']==7><sup>V</sup></#if>
+        </a>
+    </#if>
+    <#if p['F']==7>
+        <a href="/vip/?url=${baseUrl}/${p['V']}.html" target="_blank" class="link">
+        ${p['E']}<#if p['F']==0><sup>预</sup></#if><#if p['F']==7><sup>V</sup></#if>
+        </a>
+
+    </#if>
+
 </#list>
 </body>
 </html>
