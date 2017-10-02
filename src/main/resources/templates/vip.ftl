@@ -15,7 +15,7 @@
             position:relative;
             padding-bottom:56.25%;    /*需要用padding来维持16:9比例,也就是9除以16*/
             height: 0;
-            max-width: 800px;
+            /*max-width: 800px;*/
             margin: 0 auto;
         }
         .vid-wrapper>div video,.vid-wrapper>div object{
