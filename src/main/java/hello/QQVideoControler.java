@@ -25,7 +25,7 @@ public class QQVideoControler {
     @GetMapping("list")
     public String list(@RequestParam("url") String url, Model model) throws Exception{
 
-        Pattern pattern=Pattern.compile("https://([a-zA-Z0-9\\.]+)/x/cover/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)\\.html");
+        Pattern pattern=Pattern.compile("https://([a-zA-Z0-9\\.]+)/x/cover([/a-zA-Z0-9]*)/([a-zA-Z0-9]+)\\.html");
         Matcher matcher=pattern.matcher(url);
         if(matcher.matches()){
             String a= matcher.group(0);
@@ -35,10 +35,6 @@ public class QQVideoControler {
         }else {
             return "empty";
         }
-
-
-
-
 
 //        for (int i = 0; i<100;i++)
 //            System.out.println(parseVideo("https://v.qq.com/x/cover/vz351chxilgiopm/n002415cpjj.html"));
