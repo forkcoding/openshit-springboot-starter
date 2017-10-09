@@ -49,7 +49,7 @@ public class Application {
 		String parseURL=parseVideo(url,vip.equalsIgnoreCase("7"),model);
 		model.addAttribute("url",parseURL);
 		model.addAttribute("refer",url);
-		model.addAttribute("vip",vip.equalsIgnoreCase("7"));
+		model.addAttribute("vip",true);
 
 		if(StringUtils.isEmpty(parseURL)){
 			model.addAttribute("type","mp4");
@@ -93,10 +93,10 @@ public class Application {
     }
 
 	private String parseVideo(String url,boolean vip,Model model) throws Exception{
-		if(!vip){
-			return parseURL(url,model);
-		}
-		WebRequest webRequest=new WebRequest(new URL("http://api.baiyug.cn/vip_vip/index.php?url="+url));
+//		if(!vip){
+//			return parseURL(url,model);
+//		}
+		WebRequest webRequest=new WebRequest(new URL("http://api.baiyug.cn/vip_vip/api.baiyug.cn.php?url="+url));
 		webRequest.setAdditionalHeader("Referer","http://api.baiyug.cn/vip/index.php?url="+url);
 		HtmlPage p=webClient.getPage(webRequest);
 		webClient.waitForBackgroundJavaScript(10000);
@@ -121,7 +121,7 @@ public class Application {
 
 
 	private String parseURL(String url,Model model) throws Exception{
-		Connection test= Jsoup.connect("http://api.baiyug.cn/vip_vip/index.php?url="+url);
+		Connection test= Jsoup.connect("http://api.baiyug.cn/vip_vip/api.baiyug.cn.php?url="+url);
 		test.header("Referer","http://api.baiyug.cn/vip/index.php?url="+url);
 
 		String html=test.get().html();
