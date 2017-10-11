@@ -170,4 +170,9 @@ public class Application {
 		return "";
 	}
 
+
+//	@GetMapping("/crossdomain.xml")
+//    public String crossdomain(){
+//	    return "redirect:/static/crossdomain.xml";
+//    }
 }
