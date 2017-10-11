@@ -3,10 +3,7 @@ package hello;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.ScriptResult;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.WebRequest;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.commons.io.IOUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -33,7 +30,9 @@ import java.util.Map;
 @Controller
 public class Application {
 	@Autowired
-	WebClient webClient;
+	YoukuParser youkuParser;
+	@Autowired
+	QQParser qqParser;
 
 	@RequestMapping("/")
 	@ResponseBody
@@ -64,7 +63,7 @@ public class Application {
 		connection.connect();
 		String contentType=connection.getContentType();
 
-		if(contentType.toLowerCase().contains("application/x-mpegurl")){
+		if(contentType.toLowerCase().contains("application/x-mpegurl")||contentType.toLowerCase().contains("application/vnd.apple.mpegurl")){
 			ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
 			IOUtils.copy(connection.getInputStream(),outputStream);
 			String base64= Base64.getEncoder().encodeToString(outputStream.toByteArray());
@@ -96,14 +95,14 @@ public class Application {
 //		if(!vip){
 //			return parseURL(url,model);
 //		}
-		WebRequest webRequest=new WebRequest(new URL("http://api.baiyug.cn/vip_vip/api.baiyug.cn.php?url="+url));
-		webRequest.setAdditionalHeader("Referer","http://api.baiyug.cn/vip/index.php?url="+url);
-		HtmlPage p=webClient.getPage(webRequest);
-		webClient.waitForBackgroundJavaScript(10000);
-		ScriptResult result=p.executeJavaScript("basea17kdv(ykyun)");
-		String text=(String)result.getJavaScriptResult();
+		if(url.startsWith("http://v.qq.com")||url.startsWith("https://v.qq.com")){
+			return qqParser.parseVideo(url,vip,model);
+		}else if(url.startsWith("http://v.youku.com")||url.startsWith("https://v.youku.com")){
+			return youkuParser.parseVideo(url);
+		}
+		else
+			throw new RuntimeException("url not support");
 
-		return text;
 	}
 
 	public static void main(String[] args) {
