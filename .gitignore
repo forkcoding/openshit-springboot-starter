@@ -27,3 +27,4 @@ hs_err_pid*
 .gitignore
 gs-spring-boot-docker.iml
 .idea
+target

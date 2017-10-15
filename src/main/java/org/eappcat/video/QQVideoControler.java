@@ -1,4 +1,4 @@
-package hello;
+package org.eappcat.video;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -35,9 +35,6 @@ public class QQVideoControler {
         }else {
             return "empty";
         }
-
-//        for (int i = 0; i<100;i++)
-//            System.out.println(parseVideo("https://v.qq.com/x/cover/vz351chxilgiopm/n002415cpjj.html"));
 
         Connection con= Jsoup.connect(url);
         con.header("Accept", "text/html, application/xhtml+xml, */*");

@@ -1,4 +1,4 @@
-package hello;
+package org.eappcat.video;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -6,7 +6,9 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -19,30 +21,24 @@ import java.io.ByteArrayOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
 
 @SpringBootApplication
 @Controller
+@EnableJpaRepositories(basePackages = "org.eappcat.dao")
+@EntityScan("org.eappcat.entity")
 public class Application {
 	@Autowired
-	YoukuParser youkuParser;
-	@Autowired
-	QQParser qqParser;
-
+	UrlUtils urlUtils;
 	@RequestMapping("/")
 	@ResponseBody
 	public String home() {
 		return "Hello Openshift World, enjoy yourself with Openshift.";
 	}
 
-
-
-
 	@GetMapping("/vip")
 	public String vip(@RequestParam("url") String url, @RequestParam(value = "vip",defaultValue = "2")String vip, Model model) throws Exception{
 		model.addAttribute("vip",true);
-		String parseURL=parseVideo(url,vip.equalsIgnoreCase("7"),model);
+		String parseURL=urlUtils.parseVideo(url,vip.equalsIgnoreCase("7"),model);
 		model.addAttribute("url",parseURL);
 		model.addAttribute("refer",url);
 
@@ -78,29 +74,9 @@ public class Application {
 		return "vip";
 
 	}
-	@GetMapping("/vip/api")
-    @ResponseBody
-    public Map<String,String> vipapi(@RequestParam("url") String url,@RequestParam(value = "vip",defaultValue = "2")String vip,Model model) throws Exception{
-        String parseURL=parseVideo(url,vip.equalsIgnoreCase("7"),model);
-        HashMap<String,String> result=new HashMap();
-        result.put("url",parseURL);
-        return result;
 
-    }
 
-	private String parseVideo(String url,boolean vip,Model model) throws Exception{
-//		if(!vip){
-//			return parseURL(url,model);
-//		}
-		if(url.startsWith("http://v.qq.com")||url.startsWith("https://v.qq.com")){
-			return qqParser.parseVideo(url,vip,model);
-		}else if(url.startsWith("http://v.youku.com")||url.startsWith("https://v.youku.com")){
-			return youkuParser.parseVideo(url);
-		}
-		else
-			throw new RuntimeException("url not support");
 
-	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
