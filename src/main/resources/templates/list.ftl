@@ -41,6 +41,7 @@
         ${p['E']?html}<#if p['F']==0><sup>预</sup></#if><#if p['F']==7><sup>V</sup></#if>
         </a>
 </#list>
+    <div><a href="/cover/save?url=${url?html}">保存</a></div>
 </body>
 </html>
 

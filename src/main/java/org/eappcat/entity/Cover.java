@@ -7,6 +7,8 @@ import javax.persistence.Entity;
  */
 @Entity
 public class Cover extends BaseEntity {
+    private String coverId;
+    private String pic;
     private String name;
     private String url;
     private String type;
@@ -33,5 +35,21 @@ public class Cover extends BaseEntity {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getCoverId() {
+        return coverId;
+    }
+
+    public void setCoverId(String coverId) {
+        this.coverId = coverId;
+    }
+
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
     }
 }

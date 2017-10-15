@@ -1,11 +1,10 @@
 package org.eappcat.video;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+import org.eappcat.dao.CoverRepository;
+import org.eappcat.entity.Cover;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +17,13 @@ import java.util.regex.Pattern;
 /**
  * Created by yuebo on 2017/10/2.
  */
-@RequestMapping("qq")
+@RequestMapping("cover")
 @Controller
 public class QQVideoControler {
+    @Autowired
+    CoverRepository coverRepository;
+    @Autowired
+    UrlUtils urlUtils;
 
     @GetMapping("list")
     public String list(@RequestParam("url") String url, Model model) throws Exception{
@@ -36,16 +39,7 @@ public class QQVideoControler {
             return "empty";
         }
 
-        Connection con= Jsoup.connect(url);
-        con.header("Accept", "text/html, application/xhtml+xml, */*");
-        con.header("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0))");
-        Document document=con.get();
-
-        String html=document.outerHtml();
-        String next=html.substring(html.indexOf("var COVER_INFO =")+"var COVER_INFO =".length());
-        String finalS=next.substring(0,next.indexOf("\n"));
-        JSONObject object= JSON.parseObject(finalS);
-
+        JSONObject object=urlUtils.parseQQCover(url);
         JSONArray array=object.getJSONArray("nomal_ids");
         model.addAttribute("baseUrl",url.substring(0,url.lastIndexOf("/")));
         model.addAttribute("videos",array.toArray());
@@ -53,6 +47,26 @@ public class QQVideoControler {
         model.addAttribute("video",object);
 
         return "list";
+
+    }
+    @GetMapping("save")
+    public String save(@RequestParam("url") String url, Model model) throws Exception{
+        Cover cover=new Cover();
+        JSONObject object=urlUtils.parseQQCover(url);
+        String id=object.getString("id");
+
+        cover.setCoverId(id);
+        Cover dbCover=coverRepository.findByCoverId(id);
+        if(dbCover!=null){
+           cover=dbCover;
+        }
+        cover.setName(object.getString("title"));
+        cover.setPic(object.getString("pic"));
+        cover.setType("qq");
+        cover.setUrl(url);
+        coverRepository.save(cover);
+
+        return "redirect:/cover/list?url="+url;
 
     }
 }
