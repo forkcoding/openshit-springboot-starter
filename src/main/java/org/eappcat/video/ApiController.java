@@ -32,10 +32,12 @@ public class ApiController {
     CoverRepository coverRepository;
     @GetMapping("url")
     @ResponseBody
-    public Map<String,String> vipapi(@RequestParam("url") String url, @RequestParam(value = "vip",defaultValue = "2")String vip, Model model) throws Exception{
+    public Map<String,Object> vipapi(@RequestParam("url") String url, @RequestParam(value = "vip",defaultValue = "2")String vip, Model model) throws Exception{
         String parseURL=urlUtils.parseVideo(url,vip.equalsIgnoreCase("7"),model);
-        HashMap<String,String> result=new HashMap();
+        HashMap<String,Object> result=new HashMap();
         result.put("url",parseURL);
+        result.put("vip",model.asMap().getOrDefault("vip",true));
+        result.put("videoInfo",model.asMap().get("videoInfo"));
         return result;
     }
     @GetMapping("list")
