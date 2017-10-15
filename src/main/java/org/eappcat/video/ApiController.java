@@ -77,7 +77,7 @@ public class ApiController {
 
         return result;
     }
-
+    @GetMapping("covers")
     public ResponseVO<List<Cover>> listCovers(){
         ResponseVO<List<Cover>> responseVO=new ResponseVO();
         responseVO.setData(coverRepository.findAll());
