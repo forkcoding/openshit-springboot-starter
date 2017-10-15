@@ -26,14 +26,13 @@ public class QQParser {
     public String parseVideo(String url,boolean vip,Model model) throws Exception {
         model.addAttribute("vip",vip);
         if (vip) {
-
-
+            return parseVipUrl(url,model);
         }else{
             try {
                 return parseURL(url,model);
             }catch (Exception e){
                 model.addAttribute("vip",true);
-
+                return parseVipUrl(url,model);
             }
 
         }
