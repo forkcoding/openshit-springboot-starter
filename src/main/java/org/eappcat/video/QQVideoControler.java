@@ -61,7 +61,7 @@ public class QQVideoControler {
            cover=dbCover;
         }
         cover.setName(object.getString("title"));
-        cover.setPic(object.getString("pic"));
+        cover.setPic(object.getString("horizontal_pic_url"));
         cover.setType("qq");
         cover.setUrl(url);
         coverRepository.save(cover);
