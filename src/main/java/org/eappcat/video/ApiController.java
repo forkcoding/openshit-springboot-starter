@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
  */
 @RequestMapping("api")
 @RestController
+@CrossOrigin
 public class ApiController {
     @Autowired
     UrlUtils urlUtils;
