@@ -107,7 +107,7 @@
         })
     </script>
     </div>
-    <a href="/qq/list?url=${refer}">返回专辑</a>
+    <a href="/cover/list?url=${refer}">返回专辑</a>
 </body>
 </html>
 
