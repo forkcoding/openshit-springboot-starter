@@ -37,9 +37,9 @@
     <img src="${video['horizontal_pic_url']?html}" width="100%" height="100%">
 </div>
 <#list videos as p>
-        <a href="/vip/?url=${baseUrl}/${p['V']?html}.html&vip=${p['F']?html}" class="link">
+        <#--<a href="/vip/?url=${baseUrl}/${p['V']?html}.html&vip=${p['F']?html}" class="link">-->
         ${p['E']?html}<#if p['F']==0><sup>预</sup></#if><#if p['F']==7><sup>V</sup></#if>
-        </a>
+        <#--</a>-->
 </#list>
     <div><a href="/cover/save?url=${url?html}">保存</a></div>
 </body>
