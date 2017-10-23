@@ -101,7 +101,7 @@ public class ApiController {
                     link=link.substring(0,link.indexOf("?"));
             }
 
-            List<Element> list=document2.select(".tvlists .lists .item");
+            List<Element> list=document2.select(".tvlists .lists .item[name=tvlist]");
             List<Map<String,String>> mapList=new ArrayList();
             for (Element element:list){
                 HashMap<String,String> record=new HashMap();
