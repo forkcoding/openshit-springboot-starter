@@ -41,7 +41,7 @@ public class QQParser {
         }
     }
     private String parseVipUrl(String url,Model model) throws Exception{
-        WebRequest webRequest = new WebRequest(new URL("http://api.baiyug.cn/vip_vip/api.baiyug.cn.php?url=" + url));
+        WebRequest webRequest = new WebRequest(new URL("http://api.baiyug.cn/vip_vip2/sapi.php?url=" + url));
         webRequest.setAdditionalHeader("Referer", "http://api.baiyug.cn/vip/index.php?url=" + url);
         HtmlPage p = webClient.getPage(webRequest);
         webClient.waitForBackgroundJavaScript(10000);
@@ -50,7 +50,7 @@ public class QQParser {
         return text;
     }
     private String parseURL(String url,Model model) throws Exception{
-        Connection test= Jsoup.connect("http://api.baiyug.cn/vip_vip/api.baiyug.cn.php?url="+url);
+        Connection test= Jsoup.connect("http://api.baiyug.cn/vip_vip2/sapi.php?url="+url);
         test.header("Referer","http://api.baiyug.cn/vip/index.php?url="+url);
 
         String html=test.get().html();
